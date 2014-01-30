@@ -38,6 +38,8 @@
 -define:ENABLE_PROFILER
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_OSX
-'Assets/Explosion.cs'
+'Assets/PlaceRemoveCoat.cs'
+'Assets/Scripts/Explosion.cs'
+'Assets/Scripts/SlideDoorTrigger.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/unity/System.Xml.Linq.dll'
