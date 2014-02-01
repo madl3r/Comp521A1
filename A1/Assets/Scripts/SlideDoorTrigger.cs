@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class SlideDoorTrigger : MonoBehaviour {
-	
+
+	//Variables
 	public GameObject theDoor;
 	public GameObject invisDoor;
-	private Vector3 startScale = new Vector3 (1, 1, 1);
-	private Vector3 endScale = new Vector3 (20, 1, 1);
+	private Vector3 startScale = new Vector3 (1, 1, 0.5f);
+	private Vector3 endScale = new Vector3 (20, 1, 0.5f);
 	private float i;
 	private bool entered;
 
@@ -21,6 +22,7 @@ public class SlideDoorTrigger : MonoBehaviour {
 	
 	}
 
+	//When the player enters the foyer close the door behind them.
 	void OnTriggerEnter(Collider other) {
 		if (!entered)
 		{
@@ -31,7 +33,8 @@ public class SlideDoorTrigger : MonoBehaviour {
 		}
 	}
 
-
+	//Using coroutine so that waits feel good.
+	//Lerps the door closed.
 	IEnumerator CloseDoor()
 	{
 		while(i < 1.0f)
