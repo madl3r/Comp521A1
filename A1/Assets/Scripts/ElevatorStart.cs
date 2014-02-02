@@ -38,4 +38,10 @@ public class ElevatorStart : MonoBehaviour {
 		}
 		yield break;
 	}
+
+	void returnBlockToStart()
+	{
+		elevator.transform.position = startPos;
+	}
+
 }
