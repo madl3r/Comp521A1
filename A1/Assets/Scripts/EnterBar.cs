@@ -30,6 +30,7 @@ public class EnterBar : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) 
 	{
+		// Lose the game if too many times
 		if (spotLight.light.enabled == false)
 		{
 			enterRoomCounter++;
@@ -38,6 +39,7 @@ public class EnterBar : MonoBehaviour {
 				gameLost = true;
 			}
 		}
+		//Win game
 		else if (spotLight.light.enabled == true && !gameLost)
 		{
 			youText.renderer.enabled = true;
@@ -46,12 +48,15 @@ public class EnterBar : MonoBehaviour {
 			gameWon = true;
 		}
 
+		// If the game is won you always see win
 		if (gameWon)
 		{
 			youText.renderer.enabled = true;
 			haveText.renderer.enabled = true;
 			wonText.renderer.enabled = true;
 		}
+
+		// If the game is lost you always see lose
 		else if (gameLost)
 		{
 			youText.renderer.enabled = true;
@@ -61,6 +66,7 @@ public class EnterBar : MonoBehaviour {
 		
 	}
 
+	//Hide the 3d Text
 	void OnTriggerExit(Collider other)
 	{
 		youText.renderer.enabled = false;

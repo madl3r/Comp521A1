@@ -17,7 +17,7 @@ public class ReturnToStartMaze : MonoBehaviour {
 	
 	}
 
-
+	//teleport back to start, reset elevator and maze
 	void OnTriggerEnter(Collider other)
 	{
 		other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 8.0f, -7.5f);

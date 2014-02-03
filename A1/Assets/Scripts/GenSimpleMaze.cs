@@ -6,7 +6,6 @@ public class GenSimpleMaze : MonoBehaviour {
 
 	
 	public GameObject[] theWalls;
-	public List<GameObject> dahWalls;
 
 	private List<string> mazeRooms;
 	private Hashtable baseRooms;
@@ -101,7 +100,7 @@ public class GenSimpleMaze : MonoBehaviour {
 	
 	}
 
-	
+	//reset errthang, and then generate a new maze.
 	void OnTriggerEnter(Collider other) {
 		if (!entered)
 		{
@@ -170,6 +169,8 @@ public class GenSimpleMaze : MonoBehaviour {
 
 	}
 
+	//Choose from the remaining walls randomly ones that can be destroyed.
+	//Set their tag to "Destroyable"
 	void setDestroyableWalls()
 	{
 		int numDestroyable = Random.Range(5, 11);

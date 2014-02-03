@@ -15,6 +15,7 @@ public class BulletScript : MonoBehaviour {
 
 	void OnCollisionEnter(Collision c)
 	{
+		//"Destroy" the wall 
 		if (c.gameObject.tag == "Destroyable")
 		{
 			c.gameObject.collider.enabled = false;

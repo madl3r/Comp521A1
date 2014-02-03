@@ -52,6 +52,7 @@ public class PlaceRemoveCoat : MonoBehaviour {
 	
 	}
 
+	// Display the GUI text, say that we're close to the hanger
 	void OnTriggerEnter(Collider other) 
 	{
 		byTheHanger = true;
@@ -67,6 +68,7 @@ public class PlaceRemoveCoat : MonoBehaviour {
 
 	}
 
+	// set far away from hanger, get rid of the GUI text
 	void OnTriggerExit(Collider other)
 	{
 		byTheHanger = false;
