@@ -101,8 +101,7 @@ public class GenSimpleMaze : MonoBehaviour {
 	
 	}
 
-
-	//When the player enters the foyer close the door behind them.
+	
 	void OnTriggerEnter(Collider other) {
 		if (!entered)
 		{
@@ -115,9 +114,11 @@ public class GenSimpleMaze : MonoBehaviour {
 			{
 				theWalls[i].renderer.enabled = true;
 				theWalls[i].collider.enabled = true;
+				theWalls[i].tag = "DynamicMaze";
 			}
 
 			generateMaze(mazeRooms);
+			setDestroyableWalls();
 		}
 	}
 
@@ -138,12 +139,14 @@ public class GenSimpleMaze : MonoBehaviour {
 		int edgeToTake = Random.Range(0, theEdges.Length);
 		string theEdgeName = theEdges[edgeToTake].name;
 		string[] roomsOnEdge = theEdgeName.Split('_');
-		//If that edge IS ALREADY ON THE LIST do nothing and call this method again.
 
+
+		//Once mazeSoFar islength 25 then return.
 		if (mazeSoFar.Count == 25)
 		{
 			return;
 		}
+		//If that edge IS ALREADY ON THE LIST do nothing and call this method again.
 		else if (mazeSoFar.Contains(roomsOnEdge[0]) && mazeSoFar.Contains(roomsOnEdge[1]))
 		{
 			generateMaze(mazeSoFar);
@@ -164,8 +167,35 @@ public class GenSimpleMaze : MonoBehaviour {
 			generateMaze(mazeSoFar);
 		}
 	
-		//Once mazeSoFar islength 25 then return.
 
+	}
+
+	void setDestroyableWalls()
+	{
+		int numDestroyable = Random.Range(5, 11);
+		List<GameObject> candidateWalls = new List<GameObject>();
+		List<GameObject> destroyableWalls = new List<GameObject>();
+		int indexToAdd;
+
+		Debug.Log("~~~~~~~~~~~~~~~~~~~~~~~~~There are: " + numDestroyable + " destroyable walls");
+
+		for (int i = 0; i < theWalls.Length; i++)
+		{
+			if (theWalls[i].collider.enabled && theWalls[i].renderer.enabled && theWalls[i].tag == "DynamicMaze")
+			{
+				candidateWalls.Add(theWalls[i]);
+			}
+		}
+
+		while(destroyableWalls.Count < numDestroyable)
+		{
+			indexToAdd = Random.Range(0, candidateWalls.Count);
+			if (!destroyableWalls.Contains(candidateWalls[indexToAdd]))
+			{
+				destroyableWalls.Add(candidateWalls[indexToAdd]);
+				candidateWalls[indexToAdd].tag = "Destroyable";
+			}
+		}
 
 
 
@@ -176,107 +206,6 @@ public class GenSimpleMaze : MonoBehaviour {
 	{
 		entered = false;
 	}
-
-
-//	//~~~ PRIMS ALGORITHM FROM THAT WEBSITE~~~
-//	/*
-//* An implementation of Prim's algorithm for generating a minimum spanning tree
-//* given an edge weighted undirected graph G.
-//* */
-//		private Edge[] _edgeTo; //Keep track of the edges in our minimum spanning tree      
-//		private double[] _distTo; //Keep track of the weights to each edge in our minimum spanning tree   
-//		private Boolean[] _marked; //Keep track of which vertex we've looked
-//		private IndexMinPriorityQueue<Double> _pq;  //the [vertex number]|[weight] key value pairs in our minimum spanning tree
-//		
-//		void PrimMST(EdgeWeightedGraph G)
-//		{
-//			//initialize the various arrays and the minimum priority queue
-//			_edgeTo = new Edge[G.V()];
-//			_distTo = new double[G.V()];
-//			_marked = new Boolean[G.V()];
-//			_pq = new IndexMinPriorityQueue<Double>(G.V());
-//			//for each edge in the minimum spanning tree set the weight equal to infinity
-//			for (int v = 0; v < G.V(); v++) _distTo[v] = Double.PositiveInfinity;
-//			
-//			for (int v = 0; v < G.V(); v++)      
-//				if (!_marked[v]) Prim(G, v);      
-//		}
-//		
-//		private void Prim(EdgeWeightedGraph G, int s)
-//		{
-//			//set the weight to source vertex s as 0
-//			_distTo[s] = 0.0;
-//			//insert the vertex into the priority queue as (vertex number, weight)
-//			_pq.Insert(s, _distTo[s]);
-//			while (!_pq.IsEmpty())
-//			{
-//				//remove a vertex from the top of the queue
-//				int v = _pq.DeleteMin();
-//				Scan(G, v);
-//			}
-//		}
-//		
-//		/*
-//    * This method takes a vertex v, finds all the vertices connected to v and 
-//    * compares their weights to the weights we've already found and determines if any of the weights
-//    * are less than what we already have
-//    * */
-//		private void Scan(EdgeWeightedGraph G, int v)
-//		{
-//			//mark the vertex v, we only want one instance of each vertex in the mst
-//			_marked[v] = true;
-//			/*
-//        * for each edge connected to v
-//        *      -get the target vertex (w)
-//        *      -compare the weight from s to w,
-//        *      -if the weight from s to w is less than the weight from any other vertex to w
-//        *       that we've already encountered 
-//        *       -replace 
-//        *          _distTo[w] with the new value 
-//        *          _edgeTo[w] with the new edge
-//        *          _pq[w] with the new distance or insert it into _distTo[] if a value
-//        *          for_distTo[w] doesn't already exist
-//        * */
-//			foreach (Edge e in G.Adj(v))
-//			{
-//				int w = e.Target(v);
-//				if (_marked[w]) continue;
-//				if (e.Weight() < _distTo[w])
-//				{
-//					_distTo[w] = e.Weight();
-//					_edgeTo[w] = e;
-//					if (_pq.Contains(w)) _pq.ChangeKey(w, _distTo[w]);
-//					else _pq.Insert(w, _distTo[w]);
-//				}
-//			}
-//		}
-//		
-//		//Return all the edges in the MST
-//		public IEnumerable<Edge> Edges()
-//		{
-//			Queue<Edge> mst = new Queue<Edge>();
-//			for (int v = 0; v < _edgeTo.Length; v++)
-//			{
-//				Edge e = _edgeTo[v];
-//				if (e != null)
-//				{
-//					mst.Enqueue(e);
-//				}
-//			}
-//			return mst;
-//		}
-//		
-//		/*
-//    * Return the total weight of the of the minimum spanning tree.  The weight
-//    * should be no larger than the weight of any other spanning tree.
-//    * */
-//		public double Weight()
-//		{
-//			double weight = 0.0;
-//			foreach (Edge e in Edges())
-//				weight += e.Weight();
-//			return weight;
-//		}
 
 
 }
